@@ -1,39 +1,41 @@
-import { Schema, model, connect, Mongoose } from "mongoose";
-// const mongoose = require("mongoose");
+import mongoose, { Document, Schema } from "mongoose";
 
-interface ProductType {
-    image?: string;
-    name: string;
-    price: number;
-    inStock: number;
-    available?: boolean;
+export interface ProductType {
+  image?: string;
+  name: string;
+  price: number;
+  inStock: number;
+  available?: boolean;
 }
-const productSchema = new Schema<ProductType>({
+
+// export interface ProductDocument extends ProductType, Document {}
+
+const productSchema: Schema = new Schema<ProductType>(
+  {
     image: {
-        type: String,
+      type: String,
     },
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     price: {
-        type: Number,
-        default: 0,
-        require: true,
+      type: Number,
+      default: 0,
+      required: true,
     },
-    inStock:{
-        type: Number,
-         default: 0 
+    inStock: {
+      type: Number,
+      default: 0,
     },
-    available: { 
-        type: Boolean, 
-        default: true 
+    available: {
+      type: Boolean,
+      default: true,
     },
-}, {
+  },
+  {
     timestamps: true,
   }
-
-
 );
 
-const Product = model<ProductType>("Products", productSchema);
+export default mongoose.model<ProductType>("Products", productSchema);
