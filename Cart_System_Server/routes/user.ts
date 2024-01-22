@@ -1,8 +1,8 @@
 import express from "express";
 const routes = express();
-const UserController = require("../controller/userController");
+import UserController from"../controller/userController";
 
 
-routes.post("/create", UserController.createUser);
+ routes.post("/create", UserController.createUser);
 
 module.exports = routes;

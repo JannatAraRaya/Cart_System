@@ -1,24 +1,19 @@
 import mongoose, { Document, Schema } from "mongoose";
-
 export interface ProductType {
-  ID: number;
-  title:string,
+  _id?: string;
+  title: string;
   image?: string;
   inStock: number;
-  price:number;
+  price: number;
   available?: boolean;
-  rating:number
+  rating: number;
 }
 
-export interface ProductDocument extends ProductType, Document { }
+// export interface ProductDocument extends ProductType, Document { }
 
 const productSchema: Schema = new Schema<ProductType>(
 
-  {  ID: {
-    type: Number,
-    require:true,
-    unique:true
-  },
+  {  
     image: {
       type: String,
       required: true,
@@ -50,4 +45,4 @@ const productSchema: Schema = new Schema<ProductType>(
   }
 );
 
-export default mongoose.model<ProductDocument>("Products", productSchema);
+export default mongoose.model<ProductType>("Products", productSchema);

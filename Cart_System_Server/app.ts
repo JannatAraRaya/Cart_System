@@ -18,13 +18,16 @@ app.use(express.text());
 //Exporting all the routes
 const ProductRouter = require("./routes/product");
 const UserRouter = require("./routes/user");
+const AuthRouter = require("./routes/auth");
+const CartRouter = require("./routes/cart");
 
 
 
 //main routers
 app.use("/products", ProductRouter);
 app.use("/users", UserRouter);
-
+app.use("/auth",AuthRouter);
+app.use("/cart",CartRouter);
 
 
 

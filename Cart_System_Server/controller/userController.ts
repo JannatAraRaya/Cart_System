@@ -2,22 +2,30 @@ import { Request, Response, NextFunction } from "express";
 import UserModel, { UserType } from "../model/user";
 import { sendResponse } from "../util/common";
 import { HTTP_STATUS } from "../constants/statusCode";
+import UserService from "../service/user";
 class User {
-    async createUser(req: Request, res: Response, next: NextFunction) {
+    static async createUser(req: Request, res: Response, next: NextFunction) {
         const { username, email, password, gender } = req.body;
 
         try {
-            const userData: UserType = {
+            const userData = {
                 username, email, password, gender
             };
+            const createdUsersResponse = await UserService.createUser(userData);
 
-            const createdUsers = await UserModel.create(userData);
-
+            if (!createdUsersResponse.success) {
+                return sendResponse(
+                    res,
+                    HTTP_STATUS.BAD_REQUEST,
+                    createdUsersResponse.error
+                );
+            }
+    
             return sendResponse(
                 res,
                 HTTP_STATUS.OK,
-                "Successfully Products Added!",
-                createdUsers
+                "Successfully data entered for new user!",
+                createdUsersResponse.data 
             );
         } catch (error) {
             console.error(error);
@@ -30,10 +38,7 @@ class User {
             );
         }
     }
-
-
-
 }
 
 
-module.exports = new User();
+export default User;
