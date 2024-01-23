@@ -20,6 +20,7 @@ const ProductRouter = require("./routes/product");
 const UserRouter = require("./routes/user");
 const AuthRouter = require("./routes/auth");
 const CartRouter = require("./routes/cart");
+const TransactionRouter = require("./routes/transaction");
 
 
 
@@ -28,6 +29,7 @@ app.use("/products", ProductRouter);
 app.use("/users", UserRouter);
 app.use("/auth",AuthRouter);
 app.use("/cart",CartRouter);
+app.use("/transaction",TransactionRouter);
 
 
 

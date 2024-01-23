@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import "./index.scss";
 import { useRouter } from "next/navigation";
-import Login from '@/app/pages/Login';
+import Login from '@/pages/Login';
 
 type Props = {};
 
@@ -17,7 +17,7 @@ const Navbar = (props: Props) => {
             <div className="navbar__navLinks">
                 <Link href="/">Products</Link>
                 <Link href="">About</Link>
-                <Link href="">Contact</Link>
+                <Link href="">Cart</Link>
             </div>
             <div className="navbar__loginButton">
                 <Link href="/login">

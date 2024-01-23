@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from "express";
+import jsonwebtoken from 'jsonwebtoken';
 import CartService from "../service/cart";
+import UserModel from "../model/user";
+import CartModel from "../model/carts"
 import { sendResponse } from "../util/common";
 import { HTTP_STATUS } from "../constants/statusCode";
 
@@ -38,6 +41,53 @@ class CartController {
         res,
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
         "Internal Server Error..."
+      );
+    }
+  }
+
+  static async viewCart(req: Request, res: Response): Promise<void> {
+    try {
+      
+      const jwtToken = req.headers.authorization?.split(' ')[1];
+      if (!jwtToken) {
+        return sendResponse(res, HTTP_STATUS.UNAUTHORIZED, 'Unauthorized');
+      }
+  
+      const decodedToken: any = jsonwebtoken.decode(jwtToken);
+      console.log(decodedToken)
+      if (!decodedToken || !decodedToken.user || !decodedToken.user._id) {
+        return sendResponse(res, HTTP_STATUS.UNAUTHORIZED, 'Invalid token');
+      }
+  
+      const user = await UserModel.findById(decodedToken.user._id);
+      if (!user) {
+        return sendResponse(res, HTTP_STATUS.NOT_FOUND, 'User not found!');
+      }
+  
+      const cartItem = await CartModel.findOne({
+        user: decodedToken.user._id,
+      }).populate('products');
+  
+      if (!cartItem) {
+        return sendResponse(
+          res,
+          HTTP_STATUS.NOT_FOUND,
+          'Cart not found for the user'
+        );
+      }
+  
+      return sendResponse(
+        res,
+        HTTP_STATUS.OK,
+        'Cart retrieved successfully',
+        cartItem
+      );
+    } catch (error) {
+      console.error(error);
+      return sendResponse(
+        res,
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        'Internal Server Error...'
       );
     }
   }
