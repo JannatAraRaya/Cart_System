@@ -3,6 +3,7 @@ import Link from 'next/link';
 import "./index.scss";
 import { useRouter } from "next/navigation";
 import Login from '@/pages/Login';
+import Cart from '@/pages/Cart';
 
 type Props = {};
 
@@ -15,9 +16,9 @@ const Navbar = (props: Props) => {
         <nav className="navbar">
             <div className="navbar__logo">Pixel Market</div>
             <div className="navbar__navLinks">
-                <Link href="/">Products</Link>
+                <Link href="">Products</Link>
                 <Link href="">About</Link>
-                <Link href="">Cart</Link>
+                <Link href="/Cart">Cart</Link>
             </div>
             <div className="navbar__loginButton">
                 <Link href="/login">

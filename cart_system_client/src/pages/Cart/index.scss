@@ -1,0 +1,44 @@
+.show-container {
+    width: 50%; 
+    margin: 2rem auto; 
+    background-color: #f7f7f7;
+    // padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .show-second-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+  
+  h1{
+    color:#305c30;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+  }
+  
+  button {
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #e25555;
+  }
+  
+  

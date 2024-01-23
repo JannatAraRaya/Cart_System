@@ -1,3 +1,4 @@
+import Cart from "@/pages/Cart";
 import Products from "@/pages/Products";
 import Image from "next/image";
 

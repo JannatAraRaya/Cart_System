@@ -9,13 +9,13 @@ type Props = {};
 
 const Products = (props: Props) => {
   const { products, getAll} = useGetProduct();
-  console.log("products:",products)
+  // console.log("products:",products)
   useEffect(() => {
     getAll();
-  }, [products]);
+  }, []);
 
   const addToCart = (id: string) => {
-    console.log(id);
+    // console.log(id);
   };
 
   return (

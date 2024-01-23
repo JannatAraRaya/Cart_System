@@ -6,13 +6,13 @@ const useGetProduct = () => {
   const getAll = () => {
     axiosIntance
       .get("/products/viewall")
-      .then((resp) => resp.data)
-      .then((data) => {
-        console.log("Data : ", data.result.result);
+      .then((resp:any) => resp.data)
+      .then((data:any) => {
+        // console.log("Data : ", data.result.result);
         setProducts(data.result.result);
-        return data;
+        // return data;
       })
-      .catch((error) => setProducts([]));
+      .catch((error:any) => setProducts([]));
   };
   return { products, getAll };
 };
