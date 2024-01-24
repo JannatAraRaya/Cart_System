@@ -7,7 +7,8 @@ class TransactionRepository {
         cartId: mongoose.Types.ObjectId,
         userId: mongoose.Types.ObjectId,
         products: any[],
-        total: number
+        total: number,
+        transid:string
       ): Promise<TransactionType> {
         const isCartMatched = await CartModel.exists({
           _id: cartId,
@@ -19,6 +20,7 @@ class TransactionRepository {
         }
     
         const transaction = new TransactionModel({
+          transid,
           cart: cartId,
           user: userId,
           products,

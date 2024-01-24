@@ -9,7 +9,7 @@ import IResponse from "../util/responseInterface";
 
 
 class TransactionService {
-    async checkOut(cartId: mongoose.Types.ObjectId, userId: mongoose.Types.ObjectId): Promise<any> {
+    async checkOut(cartId: mongoose.Types.ObjectId, userId: mongoose.Types.ObjectId, transid:string): Promise<any> {
         try {
           const cart = await CartModel.findOne({ _id: cartId, user: userId }).populate("products");
           console.log(cart);
@@ -47,7 +47,7 @@ class TransactionService {
           }
     
           await this.updateStock(transactionItems);
-          const transaction = await TransactionRepository.createTransaction(cart._id, userId, transactionItems, total);
+          const transaction = await TransactionRepository.createTransaction(cart._id, userId, transactionItems, total,transid);
     
           
           cart.products = [];

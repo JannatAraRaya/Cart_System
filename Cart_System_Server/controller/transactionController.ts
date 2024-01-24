@@ -1,4 +1,4 @@
-import { ulid } from "ulid";
+import { uuid } from "uuidv4";
 import mongoose, { Document, Schema } from "mongoose";
 import express, { Request, Response, NextFunction } from "express";
 const app = express();
@@ -7,10 +7,12 @@ import { HTTP_STATUS } from "../constants/statusCode";
 import CartModel, { CartType } from "../model/carts";
 import TransactionService from "../service/transaction";
 import TransactionModel, { TransactionType } from "../model/transaction";
+import dotenv from "dotenv";
+dotenv.config();
 
 const SSLCommerzPayment = require("sslcommerz-lts");
-const store_id = process.env.store_id;
-const store_passwd = process.env.store_passwd;
+const store_id = "abcco65af2835d0ef1";
+const store_passwd = "abcco65af2835d0ef1@ssl";
 const is_live = false; //true for live, false for sandbox
 
 class TransactionController {
@@ -28,16 +30,16 @@ class TransactionController {
     }
     const cartInfo = await CartModel.findOne({ _id: cart }).select("Total");
 
-    console.log(cartInfo);
+    // console.log("cartinfo:",cartInfo);
     const Total = cartInfo?.Total;
-    const productID: string = ulid();
-    const result = await TransactionService.checkOut(cart, user);
-    console.log("Result:", result);
+    const transactionId = uuid();
+    const result = await TransactionService.checkOut(cart, user, transactionId);
+    // console.log("Result:", result);
 
     const data = {
       total_amount: Total,
       currency: "BDT",
-      tran_id: productID, // use unique tran_id for each API call
+      tran_id: transactionId, // use unique tran_id for each API call
       success_url: "http://localhost:8000/transaction/successful",
       fail_url: "http://localhost:8000/transaction/failed",
       cancel_url: "http://localhost:3000/cancel",
@@ -65,17 +67,20 @@ class TransactionController {
       ship_country: "Bangladesh",
     };
 
-    console.log(data);
+    // console.log(data);
 
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
 
     // sslcz.init(data).then((apiResponse: any) => {
+    //   console.log(apiResponse);
+    //   console.log("dataaaaaaaaaaaa",data);
     //   // Redirect the user to the payment gateway
     //   let GatewayPageURL = apiResponse.GatewayPageURL;
     //   res.redirect(GatewayPageURL);
     //   console.log('Redirecting to: ', GatewayPageURL);
     // });
     const apiResponse = await sslcz.init(data);
+    // console.log(apiResponse)
     const GatewayPageURL = apiResponse?.GatewayPageURL;
     return sendResponse(
       res,
@@ -84,13 +89,13 @@ class TransactionController {
       { GatewayPageURL }
     );
   }
+
   static async successTransaction(req: Request, res: Response) {
     try {
-      const { transId } = req.body;
-      const transaction: TransactionType | null =
-        await TransactionModel.findById(transId);
-        return res.redirect(`${process.env.FRONTEND_URL}/SuccessfulTransaction`);
-    //  return sendResponse(res, HTTP_STATUS.OK, "Transaction Successful!");
+      const { tran_id } = req.body;
+      console.log("body:", req.body);
+      return res.redirect(`${process.env.FRONTEND_URL}/SuccessfulTransaction`);
+      //  return sendResponse(res, HTTP_STATUS.OK, "Transaction Successful!");
     } catch (error) {
       console.error(error);
       return sendResponse(
@@ -100,68 +105,25 @@ class TransactionController {
       );
     }
   }
-  // static async failedTransaction (req:Request,res:Response){
-  //   try{
-  //     const { transId } = req.body;
-  //     const result = await TransactionModel.deleteOne({ _id: transId});
-  //     return sendResponse(res, HTTP_STATUS.OK, "Transaction Failed!", result);
-  //   }
-  //   catch(error){
-  //     console.log(error);
-  //     return sendResponse(
-  //       res,
-  //       HTTP_STATUS.INTERNAL_SERVER_ERROR,
-  //       "Internal Server Error."
-  //     );
 
-  //   }
-  // }
   static async failedTransaction(req: Request, res: Response) {
     try {
-      const { transId } = req.body;
-      // const { transId } = req.params;
-      console.log(transId);
-      const transaction: TransactionType | null =
-        await TransactionModel.findById(transId);
-
-      if (!transaction) {
-        return sendResponse(
-          res,
-          HTTP_STATUS.NOT_FOUND,
-          "Transaction not found"
-        );
-      }
-
-      const result = await TransactionModel.deleteOne({ _id:transId });
-      console.log(result);
-      if (result) {
-        const { cart, products } = transaction;
-        const existingCart: CartType | null = await CartModel.findById(cart);
-
-        if (existingCart) {
-          products.forEach(async (productItem) => {
-            const existingProductIndex = existingCart.products.findIndex(
-              (p) => p.product.toString() === productItem.product.toString()
-            );
-
-            if (existingProductIndex !== -1) {
-              existingCart.products[existingProductIndex].quantity +=
-                productItem.quantity;
-            } else {
-              existingCart.products.push({
-                product: productItem.product,
-                quantity: productItem.quantity
-              });
-            }
-          });
-
-          existingCart.Total += transaction.total;
-
-          await existingCart.save();
-        }
-      }
+      const { tran_id } = req.body;
+      console.log(req.body);
+      const transaction = await TransactionModel.findOne({ transid: tran_id });
+      const userId = transaction?.user;
+      console.log(userId)
+      const originalCart = await CartModel.findOne({ user: userId });
+      console.log(originalCart)
+      await CartModel.findByIdAndUpdate(originalCart?._id, {
+        products: originalCart?.products,
+        Total: originalCart?.Total,
+      });
+  
+      await TransactionModel.deleteOne({ transid: tran_id });
+      console.log("Payment Failed");
       return res.redirect(`${process.env.FRONTEND_URL}/FailedTransaction`);
-      // return sendResponse(res, HTTP_STATUS.OK, "Transaction Failed!");
+      //  return sendResponse(res, HTTP_STATUS.OK, "Transaction Failed!");
     } catch (error) {
       console.log(error);
       return sendResponse(

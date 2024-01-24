@@ -12,7 +12,7 @@ const app = express();
 app.use(cors({origin:"*"}));
 app.use(express.json());
 app.use(express.text());
-
+app.use(express.urlencoded({ extended: true }));
 
 
 //Exporting all the routes
