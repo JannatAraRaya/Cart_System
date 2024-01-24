@@ -39,9 +39,11 @@ const ProductCart = ({ id, title, price, image, inStock, rating, addToCart }: Pr
         <p className="product-cart__price">${price}</p>
         <p className="product-cart__stock">In Stock: {inStock}</p>
         <p className="product-cart__rating">Rating: {rating}</p>
+        <button className="product-cart__button" onClick={(e) => { handleAddToCart(id) }}>+</button>
         <button className="product-cart__button" onClick={(e) => { handleAddToCart(id) }}>
           Add To Cart
         </button>
+        <button className="product-cart__button">-</button>
       </div>
     </div>
   );
