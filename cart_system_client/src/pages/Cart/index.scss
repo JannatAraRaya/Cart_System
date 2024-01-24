@@ -1,7 +1,9 @@
+
+@use "../../styles/color" as *;
 .show-container {
     width: 50%; 
     margin: 4rem auto; 
-    background-color: #f7f7f7;
+    background-color: $color-greish;
     // padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -14,7 +16,7 @@
   }
   
   h1{
-    color:#305c30;
+    color:$color-olive;
     text-align: center;
   }
   ul {
@@ -23,15 +25,15 @@
   }
   
   li {
-    border: 1px solid #ccc;
+    border: 1px solid $color-light;
     padding: 1rem;
     margin: 1rem 0;
     border-radius: 8px;
   }
   
   button {
-    background-color: #ff6b6b;
-    color: #fff;
+    background-color: $color-pink;
+    color: $color-white;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
@@ -39,7 +41,7 @@
   }
   
   button:hover {
-    background-color: #e25555;
+    background-color: $color-pink-light;
   }
   
   

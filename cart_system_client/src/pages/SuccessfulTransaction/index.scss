@@ -1,4 +1,4 @@
-
+@use "../../styles/color" as *;
 
 .successful-transaction {
     display: flex;
@@ -14,18 +14,18 @@
   .successful-transaction__heading {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: #333;
+    color: $color-grey;
   }
   
   .successful-transaction__message {
     font-size: 1.2rem;
     margin-bottom: 2rem;
-    color: #555; 
+    color: $color-grey-dark; 
   }
   
   .successful-transaction__backButton {
-    background-color: #4caf50; 
-    color: #fff;
+    background-color:$color-green-ligt; 
+    color: $color-white;
     padding: 0.5rem 1rem;
     font-size: 1rem;
     border: none;
@@ -34,7 +34,7 @@
     transition: background-color 0.3s ease;
   
     &:hover {
-      background-color: #45a049; 
+      background-color: $color-green-lightest; 
     }
   }
   

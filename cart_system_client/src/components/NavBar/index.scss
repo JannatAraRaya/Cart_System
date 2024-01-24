@@ -5,7 +5,7 @@
     align-items: center;
     padding: 10px;
     background-color:transparent;
-    color: black;
+    color: $color-black;
 }
 
 .navbar__logo {
@@ -18,7 +18,7 @@
 }
 
 .navbar__navLinks a {
-    color:black;
+    color:$color-black;
     text-decoration: none;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .navbar__loginButton button {
-    background-color: #4caf50;
+    background-color:$color-green-ligt;
     color: $color-white;
     border: none;
     padding: 8px 16px;

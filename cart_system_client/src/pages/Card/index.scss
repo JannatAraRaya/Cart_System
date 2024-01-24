@@ -1,5 +1,6 @@
+@use "../../styles/color" as *;
 .product-cart {
-    border: 1px solid #eaeaea;
+    border: 1px solid $color-grey-light;
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
     gap: 20px; 
@@ -46,24 +47,24 @@
       font-size: 16px;
       font-weight: bold;
       margin-bottom: 8px;
-      color: #4caf50;
+      color: $color-green-ligt;
     }
   
     .product-cart__stock {
       font-size: 14px;
-      color: #888;
+      color:$text-grey;
       margin-bottom: 8px;
     }
   
     .product-cart__rating {
       font-size: 14px;
-      color: #ff9800;
+      color:$text-orange;
       margin-bottom: 8px;
     }
   
     .product-cart__button {
-      background-color: #2196f3;
-      color: #fff;
+      background-color: $color-blue;
+      color: $color-white;
       padding: 8px 16px;
       border: none;
       border-radius: 4px;
@@ -71,7 +72,7 @@
       transition: background-color 0.2s ease-in-out;
   
       &:hover {
-        background-color: #1565c0;
+        background-color: $color-indigo;
       }
     }
   }
