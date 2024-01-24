@@ -17,16 +17,12 @@ const ProductCart = ({ id, title, price, image, inStock, rating, addToCart }: Pr
  const{cart,addCart}=useAddToCart();
  
   const check: string | null = localStorage.getItem("token");
-  // console.log('Token from localStorage:', check);
-
-  const decodedToken: { user: { _id: string; role: string } } | null = check
+  const decodedToken: { user: { _id: string} } | null = check
     ? jwtDecode(check)
     : null;
-  // console.log('Decoded Token:', decodedToken);
-
   const userId: string | undefined = decodedToken?.user._id;
 
-  // console.log('Decoded userId:', userId);
+  
   const handleAddToCart = (id: any) => {
   console.log(id);
   console.log(userId)

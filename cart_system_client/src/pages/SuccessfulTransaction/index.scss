@@ -1,0 +1,40 @@
+
+
+.successful-transaction {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .successful-transaction__container {
+    text-align: center;
+  }
+  
+  .successful-transaction__heading {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .successful-transaction__message {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #555; 
+  }
+  
+  .successful-transaction__backButton {
+    background-color: #4caf50; 
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: #45a049; 
+    }
+  }
+  

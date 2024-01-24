@@ -4,6 +4,7 @@ import transactionRepository from "../repository/transaction";
 import ProductModel from "../model/product";
 import TransactionModel from "../model/transaction";
 import TransactionRepository from "../repository/transaction";
+import IResponse from "../util/responseInterface";
 
 
 
@@ -14,8 +15,11 @@ class TransactionService {
           console.log(cart);
     
           if (!cart || cart.products.length === 0) {
-            throw new Error("Cart is empty or not found.");
+            return {
+              success:false,
+              message:"Cart is empty or not found.",
           }
+        }
     
           let total = 0;
           const transactionItems: any[] = [];
@@ -25,11 +29,17 @@ class TransactionService {
             const product = await ProductModel.findById(productId);
     
             if (!product) {
-              throw new Error(`Product with ID ${productId} not found.`);
+              return {
+                success:false,
+                message:`Product with ID ${productId} not found.`,
+            }
             }
     
             if (product.inStock < quantity) {
-              throw new Error(`Product ${product.title} is out of stock.`);
+              return {
+                success:false,
+                message:`Product ${product.title} is out of stock.`,
+            }
             }
     
             total += product.price * quantity;

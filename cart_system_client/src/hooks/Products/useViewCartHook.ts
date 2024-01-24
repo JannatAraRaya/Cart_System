@@ -3,13 +3,18 @@ import { useState } from "react";
 
 const useGetCart = () => {
   const [cart, setCarts] = useState<any>([]);
-  const getCart = () => {
+  const getCart = (check:any) => {
     axiosIntance
-      .post("/cart/view")
+    .get("/cart/view", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${check}`,
+      },
+    })
       .then((resp:any) => resp.data)
       .then((data:any) => {
-         console.log("Data : ", data.result.result);
-        setCarts(data.result.result);
+         console.log("Data : ", data.result);
+        setCarts(data.result);
         return data;
       })
       .catch((error:any) => setCarts([]));

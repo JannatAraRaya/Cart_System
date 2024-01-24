@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect } from "react";
 import useGetProduct from "@/hooks/Products/useGetProductHook";
-import ProductCard from "../../components/Card";
+import ProductCard from "../Card";
 
 //import "./index.scss";
 

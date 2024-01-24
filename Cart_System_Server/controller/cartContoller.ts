@@ -30,13 +30,11 @@ class CartController {
       } else {
         return sendResponse(
           res,
-          HTTP_STATUS.BAD_REQUEST,
-          response.error || "Something went wrong..."
+          HTTP_STATUS.BAD_REQUEST, "Something went wrong..."
         );
       }
     } catch (error) {
       console.error(error);
-      next(error);
       return sendResponse(
         res,
         HTTP_STATUS.INTERNAL_SERVER_ERROR,
