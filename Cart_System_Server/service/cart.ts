@@ -60,6 +60,52 @@ class CartService {
       };
     }
   }
+  static async removeProductFromCart(
+    userId: mongoose.Types.ObjectId,
+    productId: mongoose.Types.ObjectId
+  ): Promise<IResponse> {
+    try {
+      let userCart = await CartModel.findOne({ user: userId });
+  
+      if (!userCart) {
+        throw new Error("Cart not found");
+      }
+      const product = await ProductModel.findById(productId);
+  
+      if (!product) {
+        throw new Error("Product not found");
+      }
+  
+      const existingProductIndex = userCart.products.findIndex(
+        (item) => item.product.toString() === productId.toString()
+      );
+  
+      if (existingProductIndex !== -1) {
+        
+        // userCart.products.quantity -=1;
+        userCart.products[existingProductIndex].quantity -= 1;
+        userCart.Total = userCart.products.reduce((total, item) => {
+          const productPrice = item.quantity * product.price; 
+          return total + productPrice;
+        }, 0);
+  
+        await userCart.save();
+  
+        return {
+          success: true,
+          data: userCart,
+        };
+      } else {
+        throw new Error("Product not found in the cart");
+      }
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        error: "Error removing product from the cart",
+      };
+    }
+  }
 }
 
 export default CartService;

@@ -42,7 +42,39 @@ class CartController {
       );
     }
   }
+  static async removeItemFromCart(
+    req: Request,
+    res: Response,
+  ) {
+    try {
+      const { userId, productId } = req.body;
+      const response = await CartService.removeProductFromCart(
+        userId,
+        productId
+      );
 
+      if (response.success) {
+        return sendResponse(
+          res,
+          HTTP_STATUS.OK,
+          "Product removed from cart successfully",
+          response.data
+        );
+      } else {
+        return sendResponse(
+          res,
+          HTTP_STATUS.BAD_REQUEST, "Something went wrong..."
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      return sendResponse(
+        res,
+        HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        "Internal Server Error..."
+      );
+    }
+  }
   static async viewCart(req: Request, res: Response): Promise<void> {
     try {
       
@@ -89,6 +121,7 @@ class CartController {
       );
     }
   }
+
 }
 
 export default CartController;

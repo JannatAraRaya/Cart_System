@@ -14,7 +14,7 @@ type Props = {
 };
 
 const ProductCart = ({ id, title, price, image, inStock, rating, addToCart }: Props) => {
- const{cart,addCart}=useAddToCart();
+ const{cart,addCart,decrCart}=useAddToCart();
  
   const check: string | null = localStorage.getItem("token");
   const decodedToken: { user: { _id: string} } | null = check
@@ -29,7 +29,12 @@ const ProductCart = ({ id, title, price, image, inStock, rating, addToCart }: Pr
   addCart(userId,id,1);
 
   }
-
+  const handleDecrementItem = (id: any) => {
+    console.log(id);
+    console.log(userId)
+    decrCart(userId,id);
+  
+    }
 
   return (
     <div className="product-cart">
@@ -43,7 +48,7 @@ const ProductCart = ({ id, title, price, image, inStock, rating, addToCart }: Pr
         <button className="product-cart__button" onClick={(e) => { handleAddToCart(id) }}>
           Add To Cart
         </button>
-        <button className="product-cart__button">-</button>
+        <button className="product-cart__button" onClick={(e) => { handleDecrementItem(id) }}>-</button>
       </div>
     </div>
   );

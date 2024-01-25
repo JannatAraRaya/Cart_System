@@ -19,8 +19,23 @@ const useAddToCart = () => {
         console.error("Error:", error);
       });
   };
+  const decrCart = (userId: any, productId: any) => {
+    const payload = {
+      userId: userId,
+      productId: productId,
+    };
 
-  return { cart, addCart };
+    axiosInstance
+      .post("/cart/removeItem", payload)
+      .then((response:any) => {
+        console.log("Response Data:", response.data);
+        setCart(response.data);
+      })
+      .catch((error:any) => {
+        console.error("Error:", error);
+      });
+  };
+  return { cart, addCart,decrCart };
 };
 
 
